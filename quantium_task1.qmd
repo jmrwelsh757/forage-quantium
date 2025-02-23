@@ -106,3 +106,7 @@ full_df =
 skim(full_df)
 ```
 
+```{r}
+save.image(file = "data/task1.RData")
+```
+

@@ -5,21 +5,24 @@ format: html
 
 ## Quarto
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
 ```{r}
-1 + 1
+library(tidyverse)
+load("data/task1.RData")
 ```
 
-You can add options to executable code like this 
+I was asked us to evaluate the performance of a store trial which was performed in stores 77, 86, and 88.
 
 ```{r}
-#| echo: false
-2 * 2
+
+
+
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+
+
+```{r}
+
+
+
+```
+
