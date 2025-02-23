@@ -10,19 +10,33 @@ library(tidyverse)
 load("data/task1.RData")
 ```
 
-I was asked us to evaluate the performance of a store trial which was performed in stores 77, 86, and 88.
+I was asked us to evaluate the performance of a store trial which was performed in stores 77, 86, and 88. The first step is to aggregate purchases by customer and total sales at each store by month so that we can compare store performance by month and find a suitable control group to measure the treatment group against.
 
 ```{r}
 
-
+qvi_data = 
+  full_df %>% 
+  mutate(year=year(date),
+         month=month(date),
+         day=day(date),
+         wday=wday(date),
+         .before = "date")
 
 ```
 
 
+The average customer performed just under 4 transactions in the year recorded in the dataset.
 
 ```{r}
 
+avg_trans =
+  qvi_data %>% 
+  summarize(transactions = n(),
+            .by = lylty_card_nbr) %>% 
+  summarize(transactions = mean(transactions)) %>% 
+  pull(transactions)
 
+avg_trans
 
 ```
 
