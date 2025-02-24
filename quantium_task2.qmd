@@ -5,17 +5,18 @@ format: html
 
 ## Quarto
 
-```{r}
+```{r setup, warning=FALSE, message=FALSE}
 library(tidyverse)
 load("data/task1.RData")
 ```
 
-I was asked us to evaluate the performance of a store trial which was performed in stores 77, 86, and 88. The first step is to aggregate purchases by customer and total sales at each store by month so that we can compare store performance by month and find a suitable control group to measure the treatment group against.
+I was asked us to evaluate the performance of a store trial which was performed in stores 77, 86, and 88. The first step is to aggregate purchases by customer and total sales at each store by month so that we can compare store performance by month and find a suitable control group to measure the trial group against.
 
-```{r}
+```{r add_date_helpers}
 
-qvi_data = 
+store_data = 
   full_df %>% 
+  filter(prod_brand!="Old El Paso") %>% 
   mutate(year=year(date),
          month=month(date),
          day=day(date),
@@ -24,19 +25,56 @@ qvi_data =
 
 ```
 
-
 The average customer performed just under 4 transactions in the year recorded in the dataset.
 
-```{r}
+```{r monthly_summary}
 
-avg_trans =
-  qvi_data %>% 
-  summarize(transactions = n(),
-            .by = lylty_card_nbr) %>% 
-  summarize(transactions = mean(transactions)) %>% 
-  pull(transactions)
+store_monthly =
+  store_data %>% 
+  summarize(date = min(date),
+            transx = n(),
+            tot_sales = sum(tot_sales),
+            .by = c(year,month,store_nbr,lylty_card_nbr)) %>% 
+  summarize(date =
+              date(str_glue("{year(min(date))}-{month(min(date))}-{01}")),
+            avg_transx = mean(transx),
+            tot_sales = sum(tot_sales),
+            cust_nbr = n(),
+            .by = c(year,month,store_nbr)) %>% 
+  arrange(year,month,store_nbr)
 
-avg_trans
+store_monthly
 
 ```
 
+Next we will visualize stores 77, 86, and 88 in order to get an idea of what their sales pattern looks like over the period data is available.
+
+```{r linechart, warning=FALSE, message=FALSE}
+
+treat_monthly = 
+  store_monthly %>% 
+  mutate(trial =
+           case_when(store_nbr %in% c(77, 86, 88) ~ 1,
+                     TRUE ~ 0))
+treat_monthly %>% 
+  ggplot() +
+  geom_line(aes(x=date,
+                y=tot_sales,
+                color=store_nbr),
+            linewidth=1.2) +
+  gghighlight::gghighlight(trial==1,
+                           use_direct_label = FALSE) +
+  scale_x_date(labels = scales::date_format(format = "%b"),
+               breaks = scales::date_breaks()) +
+  scale_y_continuous(labels = scales::dollar_format()) + 
+  labs(title = "Monthly chip sales by store",
+       subtitle = "Highlighted lines represent trial group of stores 77, 86, and 88 all other stores are greyed out",
+       y = "Chip sales",
+       x = NULL,
+       color = "Store number") +
+  theme_minimal()
+
+
+```
+
+Based on the graph, store 77 seems to be a smaller store, store 86 seems to be mid-sized and store 88 is a large, top performing store. A control store to compare to each would need to match the category of the trial store.
