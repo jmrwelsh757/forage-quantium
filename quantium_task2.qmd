@@ -3,10 +3,11 @@ title: "Task 2"
 format: html
 ---
 
-## Quarto
+## Introduction
 
 ```{r setup, warning=FALSE, message=FALSE}
 library(tidyverse)
+library(gt)
 load("data/task1.RData")
 ```
 
@@ -31,19 +32,24 @@ The average customer performed just under 4 transactions in the year recorded in
 
 store_monthly =
   store_data %>% 
-  summarize(date = min(date),
-            transx = n(),
-            tot_sales = sum(tot_sales),
-            .by = c(year,month,store_nbr,lylty_card_nbr)) %>% 
-  summarize(date =
-              date(str_glue("{year(min(date))}-{month(min(date))}-{01}")),
-            avg_transx = mean(transx),
-            tot_sales = sum(tot_sales),
-            cust_nbr = n(),
-            .by = c(year,month,store_nbr)) %>% 
+  summarize(
+    across(.cols  = prod_qty:pack_size,
+           .fns   = list(sum=sum),
+           .names = "{col}"),
+    transx = n(),
+    .by = c(year,month,store_nbr,lylty_card_nbr)) %>% 
+  summarize(
+    date = date(str_glue("{min(year)}-{min(month)}-{01}")),
+    across(
+      .cols  = prod_qty:transx,
+      .fns   = list(sum=sum,
+                    avg=mean),
+      .names = "{col}_{fn}"),
+    cust_nbr = n(),
+    .by = c(year,month,store_nbr)) %>% 
   arrange(year,month,store_nbr)
 
-store_monthly
+store_monthly %>% gt()
 
 ```
 
@@ -51,18 +57,26 @@ Next we will visualize stores 77, 86, and 88 in order to get an idea of what the
 
 ```{r linechart, warning=FALSE, message=FALSE}
 
+incomplete_stores =
+  store_monthly %>% 
+  summarize(mnts=n(),.by = store_nbr) %>% 
+  filter(mnts<12) %>% 
+  pull(store_nbr)
+
 treat_monthly = 
   store_monthly %>% 
-  mutate(trial =
+  filter(!store_nbr %in% incomplete_stores) %>% 
+  mutate(trial_store =
            case_when(store_nbr %in% c(77, 86, 88) ~ 1,
                      TRUE ~ 0))
+
 treat_monthly %>% 
   ggplot() +
   geom_line(aes(x=date,
-                y=tot_sales,
+                y=tot_sales_sum,
                 color=store_nbr),
             linewidth=1.2) +
-  gghighlight::gghighlight(trial==1,
+  gghighlight::gghighlight(trial_store==1,
                            use_direct_label = FALSE) +
   scale_x_date(labels = scales::date_format(format = "%b"),
                breaks = scales::date_breaks()) +
@@ -74,7 +88,157 @@ treat_monthly %>%
        color = "Store number") +
   theme_minimal()
 
-
 ```
 
 Based on the graph, store 77 seems to be a smaller store, store 86 seems to be mid-sized and store 88 is a large, top performing store. A control store to compare to each would need to match the category of the trial store.
+In order to calculate similarity, we can first expand the store numbers to a grid of each store id paired with every other store id, then run a function using the filtered data of each stores pivoted wider to compare.
+
+
+```{r sales_correl}
+
+store_nbrs =
+  treat_monthly %>% 
+  transmute(store_nbr = as.character(store_nbr)) %>% 
+  pull(store_nbr) %>% 
+  unique()
+
+#Find each store's correlation with the trial stores to build a score to compare stores performance in terms of month to month changes. This combined with a store size comparison will be used to select control stores.
+sales_correlations =
+  expand_grid(c(77,86,88),store_nbrs) %>% 
+  select(nbr1=1,nbr2=2) %>% 
+  filter(nbr1!=nbr2) %>% 
+  mutate(across(everything(),as.numeric)) %>% 
+  mutate(correlations=
+           map2_dbl(
+             nbr1,
+             nbr2,
+             \(nbr1,nbr2){
+               treat_monthly %>% 
+                 select(year, month, store_nbr, tot_sales_sum) %>%
+                 #filter the monthly dataset to not include the treatment period, since we are interested in similarity between stores outside of the store layout trial period, but searching for differences during the layout trial. Pick two stores at a time and pivot wider in order to have two series to pass to correlations function.
+                 filter(!month %in% 2:6,
+                        store_nbr %in% c(nbr1, nbr2)) %>% 
+                 pivot_wider(names_from = store_nbr,
+                             values_from = tot_sales_sum) %>%
+                 summarize(correlation = cor(x=pick(3),y=pick(4),
+                                             method = "pearson")) %>% pull()
+             },.progress = TRUE)) 
+
+```
+
+```{r sales_magdistance}
+
+#Find each store's sales "distance" (how different the size of sales is) from the trial stores to build a score to compare stores performance in terms of month to month size. This combined with a correlation comparison will be used to select control stores.
+sales_distance =
+  expand_grid(c(77,86,88),store_nbrs) %>% 
+  select(nbr1=1,nbr2=2) %>% 
+  filter(nbr1!=nbr2) %>% 
+  mutate(across(everything(),as.numeric)) %>% 
+  mutate(euclidean_dist=
+           map2_dbl(
+             nbr1,
+             nbr2,
+             \(nbr1,nbr2){
+               treat_monthly %>% 
+                 select(year, month, store_nbr, tot_sales_sum) %>%
+                 #filter the monthly dataset to not include the treatment period, since we are interested in similarity between stores outside of the store layout trial period, but searching for differences during the layout trial. Pick two stores at a time and pivot wider in order to have two series to pass to distance function.
+                 filter(!month %in% 2:6,
+                        store_nbr %in% c(nbr1, nbr2)) %>% 
+                 pivot_wider(names_from = store_nbr,
+                             values_from = tot_sales_sum) %>%
+                 summarize(euclidean_dist = sqrt(sum((pick(3) - pick(4))^2))) %>% pull()
+             },.progress = TRUE)) 
+
+#Find the max and min euclidean distance for use in the magnitude difference score.
+max_min_dist = 
+  sales_distance %>% 
+  summarize(
+    across(
+      .cols = euclidean_dist,
+      .fns = list(max=max,
+                  min=min),
+      .names = "{col}_{fn}"
+    )
+  )
+```
+
+
+```{r join&slice_heuristics}
+
+comps = sales_correlations %>% 
+  inner_join(sales_distance,
+             by = join_by(nbr1, nbr2)) %>% 
+  cross_join(max_min_dist) %>% 
+  #Create the store size similarity score and weight correlation and store size equally to create a score to select control stores.
+  mutate(magnitude_distance = 
+           1 - ((euclidean_dist - euclidean_dist_min) /
+                  (euclidean_dist_max - euclidean_dist_min)),
+         score = 0.5*correlations + 0.5*magnitude_distance) %>% 
+  select(nbr1:correlations, magnitude_distance:score) %>% 
+  group_by(nbr1) %>% 
+  slice_max(order_by = score, 
+            n = 4, with_ties = FALSE)
+comps %>% 
+  gt(caption = "Top four stores similar to each trial store") %>% 
+  cols_label(nbr2="stores")
+```
+
+
+```{r filter_comps}
+#grab lists of most similar stores to each trial store based on final scores.
+comp_stores = comps %>% 
+  group_by(nbr1) %>% 
+  slice_max(order_by = score, n = 1) %>% 
+  pivot_longer(cols = nbr1:nbr2,
+               values_to = "stores") %>% 
+  pull()
+
+
+comp_df = 
+  treat_monthly %>% 
+  #filter original dataset for only trial and comp stores.
+  filter(store_nbr %in% comp_stores) 
+
+comp_df %>% 
+  ggplot() +
+  geom_rect(xmin=as_date("2018-06-01"),xmax=as_date("2019-01-15"),ymin=0,ymax=1500, fill="grey40", alpha=0.01) +
+  geom_rect(xmin=as_date("2019-01-15"),xmax=as_date("2019-04-15"),ymin=0,ymax=1500, fill="firebrick1", alpha=0.01) +
+  geom_rect(xmin=as_date("2019-04-15"),xmax=as_date("2019-07-01"),ymin=0,ymax=1500, fill="yellow3", alpha=0.01) +
+  geom_text(x=as_date("2018-11-01"),
+            y=500,
+            label="Pre-trial period") +
+  geom_text(x=as_date("2019-03-01"),
+            y=500,
+            label="Trial period") +
+  geom_text(x=as_date("2019-05-15"),
+            y=500,
+            label="Post-trial\nperiod") +
+  geom_line(aes(x=date,
+                y=tot_sales_sum,
+                color=store_nbr),
+            linewidth=1.2) +
+  scale_x_date(labels = scales::date_format(format = "%b"),
+               breaks = scales::date_breaks()) +
+  scale_y_continuous(labels = scales::dollar_format()) + 
+  labs(title = "Monthly chip sales by store",
+       subtitle = "Comparison stores were picked based on similarity during the Pre-trial period",
+       y = "Chip sales",
+       x = NULL,
+       color = "Store number") +
+  theme_minimal()
+
+```
+
+```{r}
+
+comp_df %>% 
+  mutate(trial = 
+           case_when(
+             trial==1 & 
+               date %in% as_date(paste0("2019-0",2:4,"-01")) ~ 1, 
+             TRUE~0
+             )
+         )
+
+d```
+
