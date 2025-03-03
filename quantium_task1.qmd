@@ -1,6 +1,6 @@
 ---
 title: "Sales Insights Report"
-format: pdf
+format: html
 ---
 ```{r setup, echo=FALSE,warning=FALSE,message=FALSE}
 library(tidyverse)
@@ -101,3 +101,52 @@ skim(full_df)
 save.image(file = "data/task1.RData")
 ```
 END OF EXAMPLE
+
+
+```{r demographics, eval=FALSE,include=FALSE}
+
+full_df %>%
+  summarize(
+    tot_sales = sum(tot_sales),
+    .by = c(premium_customer, lifestage)
+  ) %>% 
+  separate_wider_delim(cols = lifestage, delim = " ", names = c("age","family_status"),
+                       too_few = "align_start") %>%
+  replace_na(list(family_status="SINGLES/COUPLES")) %>% 
+  ggplot() +
+  geom_col(aes(x=age,y=tot_sales, fill = age)) +
+  facet_grid(cols = vars(premium_customer),
+             rows = vars(family_status)) +
+  labs(title = "Sales by customer category",
+       subtitle = "",
+       x=NULL,
+       y="Total sales") + 
+  scale_y_continuous(labels = scales::dollar_format()) +
+  theme_minimal() +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank())
+#ggsave(filename = "sales_report_prod/cust_categories.png", plot = demo)
+```
+
+```{r}
+
+full_df %>%
+  summarize(
+    tot_sales = sum(tot_sales),
+    .by = c(premium_customer)
+  ) %>% 
+  ggplot() +
+  geom_col(aes(x=premium_customer,y=tot_sales, fill = premium_customer)) +
+  labs(title = "Sales by customer category",
+       subtitle = "",
+       x=NULL,
+       y="Total sales",
+       fill="Customer category") + 
+  scale_y_continuous(labels = scales::dollar_format()) +
+  theme_minimal() +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank())
+#ggsave(filename = "sales_report_prod/cust_category.png", plot = demo)
+
+```
+

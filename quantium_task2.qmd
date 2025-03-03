@@ -1,13 +1,17 @@
 ---
-title: "Task 2"
+title: "Business Intelligence Report"
 format: html
 ---
 
 ## Introduction
 
-```{r setup, warning=FALSE, message=FALSE}
+```{r setup, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 library(tidyverse)
 library(gt)
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE,
+                      message = FALSE,
+                      error = FALSE)
 load("data/task1.RData")
 ```
 
@@ -25,8 +29,6 @@ store_data =
          .before = "date")
 
 ```
-
-The average customer performed just under 4 transactions in the year recorded in the dataset.
 
 ```{r monthly_summary}
 
@@ -49,13 +51,15 @@ store_monthly =
     .by = c(year,month,store_nbr)) %>% 
   arrange(year,month,store_nbr)
 
-store_monthly %>% gt()
+store_monthly %>% 
+  head() %>% 
+  gt()
 
 ```
 
 Next we will visualize stores 77, 86, and 88 in order to get an idea of what their sales pattern looks like over the period data is available.
 
-```{r linechart, warning=FALSE, message=FALSE}
+```{r linechart}
 
 incomplete_stores =
   store_monthly %>% 
@@ -90,8 +94,8 @@ treat_monthly %>%
 
 ```
 
-Based on the graph, store 77 seems to be a smaller store, store 86 seems to be mid-sized and store 88 is a large, top performing store. A control store to compare to each would need to match the category of the trial store.
-In order to calculate similarity, we can first expand the store numbers to a grid of each store id paired with every other store id, then run a function using the filtered data of each stores pivoted wider to compare.
+Based on the graph, store 77 seems to be a smaller store, store 86 seems to be mid-sized and store 88 is a large, top performing store. Control stores to compare to each trial store need to match the category of the trial store. Store 88 will likely have fewer candidates for matches since it is a bit of an outlier store.
+In order to calculate similarity, we can first expand the store numbers to a grid of each store id paired with every other store id, then run a function to calculate the similarity between each pairing. This analysis uses pearson's correlation function and a normalized euclidean distance formula to calculate similarity. Each function makes up half the weight of a final scoring so that the top scoring store will be the most correlated and the closest size in terms of total sales during the pre-trial period. The table below shows the top 4 candidates for each trial store but only the top scoring store carries forward in further analysis. The graph shows the trial and control stores during the Pre-trial, Trial, and Post-trial periods
 
 
 ```{r sales_correl}
@@ -197,7 +201,13 @@ comp_stores = comps %>%
 comp_df = 
   treat_monthly %>% 
   #filter original dataset for only trial and comp stores.
-  filter(store_nbr %in% comp_stores) 
+  filter(store_nbr %in% comp_stores) %>% 
+  mutate(trial_pairs = 
+           case_when(
+             store_nbr %in% c(77,233) ~ "Pair 1",
+             store_nbr %in% c(86,138) ~ "Pair 2",
+             store_nbr %in% c(88,91) ~ "Pair 3"
+           ))
 
 comp_df %>% 
   ggplot() +
@@ -217,6 +227,8 @@ comp_df %>%
                 y=tot_sales_sum,
                 color=store_nbr),
             linewidth=1.2) +
+  facet_grid(rows=vars(trial_pairs),
+             scales="free_y") +
   scale_x_date(labels = scales::date_format(format = "%b"),
                breaks = scales::date_breaks()) +
   scale_y_continuous(labels = scales::dollar_format()) + 
@@ -226,19 +238,93 @@ comp_df %>%
        x = NULL,
        color = "Store number") +
   theme_minimal()
+#ggsave(filename = "sales_report_prod/sales_lines.png", plot = demo)
+```
+
+```{r trial_stats}
+
+trial_stats =
+  comp_df %>% 
+  mutate(trial_period = 
+           case_when(
+             date %in% as_date(paste0("2019-0",2:4,"-01")) ~ "trial",
+             date %in% as_date(paste0("2019-0",5:6,"-01")) ~ "post_trial",
+             TRUE~"pre_trial"
+             )
+         ) %>% 
+  summarize(
+    across(
+      .cols = prod_qty_sum:cust_nbr,
+      .fns = list(avg=mean),
+      .names = "{col}_{fn}"
+    ),
+    .by = c(store_nbr, trial_period)
+  ) %>% 
+  select(store_nbr, trial_period,
+         average_total_product_quantity=prod_qty_sum_avg,
+         average_product_quantity_per_customer=prod_qty_avg_avg,
+         average_total_sales=tot_sales_sum_avg,
+         average_sales_per_customer=tot_sales_avg_avg,
+         average_pack_size=pack_size_avg_avg,
+         average_number_of_transactions=transx_sum_avg,
+         average_number_of_transactions_per_customer=transx_avg_avg,
+         average_number_of_customers=cust_nbr_avg) %>% 
+  pivot_longer(average_total_product_quantity:average_number_of_customers,
+               names_to = "variable") %>% 
+  mutate(variable = str_replace_all(variable,"_"," "),
+         variable = str_remove(variable,"average "))
 
 ```
 
-```{r}
+The results table below shows store sales metrics from the pre-trial period before February 2019, the trial period from February to the end of April, and the post-trial period from May onward.
 
-comp_df %>% 
-  mutate(trial = 
+```{r results_table}
+
+trial_results = 
+  trial_stats %>% 
+  mutate(store=
            case_when(
-             trial==1 & 
-               date %in% as_date(paste0("2019-0",2:4,"-01")) ~ 1, 
-             TRUE~0
-             )
-         )
+             store_nbr %in% c(77,86,88) 
+             ~ paste("Trial store",store_nbr),
+             TRUE 
+             ~ paste("Control store",store_nbr))) %>%
+  select(-store_nbr) %>% 
+  pivot_wider(names_from = trial_period) %>% 
+  mutate(delta = trial - pre_trial,
+         pct_delta = delta/pre_trial,
+         delta = scales::number(delta,
+                                accuracy = .01,
+                                style_positive = "plus",
+                                style_negative = "minus"),
+         pct_delta = scales::number(pct_delta,
+                                    accuracy = .01,
+                                    style_positive = "plus",
+                                    style_negative = "minus",
+                                    suffix = "%")
+  ) 
 
-d```
+trial_results %>% 
+  select(-post_trial,-delta) %>% 
+  mutate(pre_trial = scales::number(pre_trial,
+                                    accuracy = .01),
+         trial = scales::number(trial,
+                                accuracy = .01)) %>% 
+  filter(variable %in%
+           c("number of transactions per customer",
+             "product quantity per customer",
+             "number of customers",
+             "total sales")) %>% 
+  gt(groupname_col = "store",
+     caption = "Monthly store sales metrics for trial and control stores") %>% 
+  cols_label(.list = 
+               list(
+                 "variable"=" ",
+                 "pre_trial"="Pre-trial",
+                 "trial"="Trial",
+                 "pct_delta"="Percent change"
+               )) 
+#gtsave(filename = "sales_report_prod/sales_tbl.png", data = demo)
+```
 
+After a visual analysis of the results table it is clear that average monthly number of customers increases consistently in the trial groups and decreases consistently in the control groups. Since most other indicators stay mostly flat, increased customer numbers drives an increase in total sales in the trial stores while total sales fall in the control stores.
+Further statistical analysis would be needed to determine the statistical significance of the increase in total sales.

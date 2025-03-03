@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Task 2</title>
+<title>Business Intelligence Report</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,40 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -79,7 +45,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Task 2</h1>
+<h1 class="title">Business Intelligence Report</h1>
 </div>
 
 
@@ -96,97 +62,578 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="quarto" class="level2">
-<h2 class="anchored" data-anchor-id="quarto">Quarto</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"data/task1.RData"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>I was asked us to evaluate the performance of a store trial which was performed in stores 77, 86, and 88. The first step is to aggregate purchases by customer and total sales at each store by month so that we can compare store performance by month and find a suitable control group to measure the trial group against.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>store_data <span class="ot">=</span> </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  full_df <span class="sc">%&gt;%</span> </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(prod_brand<span class="sc">!=</span><span class="st">"Old El Paso"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year=</span><span class="fu">year</span>(date),</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">month=</span><span class="fu">month</span>(date),</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">day=</span><span class="fu">day</span>(date),</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">wday=</span><span class="fu">wday</span>(date),</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">.before =</span> <span class="st">"date"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="dfubxjkper" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#dfubxjkper table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#dfubxjkper thead, #dfubxjkper tbody, #dfubxjkper tfoot, #dfubxjkper tr, #dfubxjkper td, #dfubxjkper th {
+  border-style: none;
+}
+
+#dfubxjkper p {
+  margin: 0;
+  padding: 0;
+}
+
+#dfubxjkper .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#dfubxjkper .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#dfubxjkper .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#dfubxjkper .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#dfubxjkper .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#dfubxjkper .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#dfubxjkper .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#dfubxjkper .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#dfubxjkper .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#dfubxjkper .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#dfubxjkper .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#dfubxjkper .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#dfubxjkper .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#dfubxjkper .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#dfubxjkper .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#dfubxjkper .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#dfubxjkper .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#dfubxjkper .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#dfubxjkper .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dfubxjkper .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#dfubxjkper .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#dfubxjkper .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#dfubxjkper .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dfubxjkper .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#dfubxjkper .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#dfubxjkper .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#dfubxjkper .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dfubxjkper .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#dfubxjkper .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#dfubxjkper .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#dfubxjkper .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#dfubxjkper .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#dfubxjkper .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dfubxjkper .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#dfubxjkper .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dfubxjkper .gt_left {
+  text-align: left;
+}
+
+#dfubxjkper .gt_center {
+  text-align: center;
+}
+
+#dfubxjkper .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#dfubxjkper .gt_font_normal {
+  font-weight: normal;
+}
+
+#dfubxjkper .gt_font_bold {
+  font-weight: bold;
+}
+
+#dfubxjkper .gt_font_italic {
+  font-style: italic;
+}
+
+#dfubxjkper .gt_super {
+  font-size: 65%;
+}
+
+#dfubxjkper .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#dfubxjkper .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#dfubxjkper .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#dfubxjkper .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#dfubxjkper .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#dfubxjkper .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#dfubxjkper .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#dfubxjkper .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#dfubxjkper div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_col_headings">
+<th id="year" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">year</th>
+<th id="month" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">month</th>
+<th id="store_nbr" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">store_nbr</th>
+<th id="date" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">date</th>
+<th id="prod_qty_sum" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">prod_qty_sum</th>
+<th id="prod_qty_avg" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">prod_qty_avg</th>
+<th id="tot_sales_sum" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">tot_sales_sum</th>
+<th id="tot_sales_avg" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">tot_sales_avg</th>
+<th id="pack_size_sum" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">pack_size_sum</th>
+<th id="pack_size_avg" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">pack_size_avg</th>
+<th id="transx_sum" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">transx_sum</th>
+<th id="transx_avg" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">transx_avg</th>
+<th id="cust_nbr" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">cust_nbr</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_right" headers="year">2018</td>
+<td class="gt_row gt_right" headers="month">7</td>
+<td class="gt_row gt_center" headers="store_nbr">1</td>
+<td class="gt_row gt_right" headers="date">2018-07-01</td>
+<td class="gt_row gt_right" headers="prod_qty_sum">59</td>
+<td class="gt_row gt_right" headers="prod_qty_avg">1.229167</td>
+<td class="gt_row gt_right" headers="tot_sales_sum">191.6</td>
+<td class="gt_row gt_right" headers="tot_sales_avg">3.991667</td>
+<td class="gt_row gt_right" headers="pack_size_sum">8513</td>
+<td class="gt_row gt_right" headers="pack_size_avg">177.3542</td>
+<td class="gt_row gt_right" headers="transx_sum">50</td>
+<td class="gt_row gt_right" headers="transx_avg">1.041667</td>
+<td class="gt_row gt_right" headers="cust_nbr">48</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="year">2018</td>
+<td class="gt_row gt_right" headers="month">7</td>
+<td class="gt_row gt_center" headers="store_nbr">2</td>
+<td class="gt_row gt_right" headers="date">2018-07-01</td>
+<td class="gt_row gt_right" headers="prod_qty_sum">45</td>
+<td class="gt_row gt_right" headers="prod_qty_avg">1.184211</td>
+<td class="gt_row gt_right" headers="tot_sales_sum">145.7</td>
+<td class="gt_row gt_right" headers="tot_sales_avg">3.834211</td>
+<td class="gt_row gt_right" headers="pack_size_sum">7217</td>
+<td class="gt_row gt_right" headers="pack_size_avg">189.9211</td>
+<td class="gt_row gt_right" headers="transx_sum">40</td>
+<td class="gt_row gt_right" headers="transx_avg">1.052632</td>
+<td class="gt_row gt_right" headers="cust_nbr">38</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="year">2018</td>
+<td class="gt_row gt_right" headers="month">7</td>
+<td class="gt_row gt_center" headers="store_nbr">3</td>
+<td class="gt_row gt_right" headers="date">2018-07-01</td>
+<td class="gt_row gt_right" headers="prod_qty_sum">263</td>
+<td class="gt_row gt_right" headers="prod_qty_avg">2.435185</td>
+<td class="gt_row gt_right" headers="tot_sales_sum">1164.9</td>
+<td class="gt_row gt_right" headers="tot_sales_avg">10.786111</td>
+<td class="gt_row gt_right" headers="pack_size_sum">23838</td>
+<td class="gt_row gt_right" headers="pack_size_avg">220.7222</td>
+<td class="gt_row gt_right" headers="transx_sum">134</td>
+<td class="gt_row gt_right" headers="transx_avg">1.240741</td>
+<td class="gt_row gt_right" headers="cust_nbr">108</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="year">2018</td>
+<td class="gt_row gt_right" headers="month">7</td>
+<td class="gt_row gt_center" headers="store_nbr">4</td>
+<td class="gt_row gt_right" headers="date">2018-07-01</td>
+<td class="gt_row gt_right" headers="prod_qty_sum">302</td>
+<td class="gt_row gt_right" headers="prod_qty_avg">2.495868</td>
+<td class="gt_row gt_right" headers="tot_sales_sum">1318.3</td>
+<td class="gt_row gt_right" headers="tot_sales_avg">10.895041</td>
+<td class="gt_row gt_right" headers="pack_size_sum">28020</td>
+<td class="gt_row gt_right" headers="pack_size_avg">231.5702</td>
+<td class="gt_row gt_right" headers="transx_sum">152</td>
+<td class="gt_row gt_right" headers="transx_avg">1.256198</td>
+<td class="gt_row gt_right" headers="cust_nbr">121</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="year">2018</td>
+<td class="gt_row gt_right" headers="month">7</td>
+<td class="gt_row gt_center" headers="store_nbr">5</td>
+<td class="gt_row gt_right" headers="date">2018-07-01</td>
+<td class="gt_row gt_right" headers="prod_qty_sum">236</td>
+<td class="gt_row gt_right" headers="prod_qty_avg">2.593407</td>
+<td class="gt_row gt_right" headers="tot_sales_sum">791.6</td>
+<td class="gt_row gt_right" headers="tot_sales_avg">8.698901</td>
+<td class="gt_row gt_right" headers="pack_size_sum">20236</td>
+<td class="gt_row gt_right" headers="pack_size_avg">222.3736</td>
+<td class="gt_row gt_right" headers="transx_sum">118</td>
+<td class="gt_row gt_right" headers="transx_avg">1.296703</td>
+<td class="gt_row gt_right" headers="cust_nbr">91</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="year">2018</td>
+<td class="gt_row gt_right" headers="month">7</td>
+<td class="gt_row gt_center" headers="store_nbr">6</td>
+<td class="gt_row gt_right" headers="date">2018-07-01</td>
+<td class="gt_row gt_right" headers="prod_qty_sum">71</td>
+<td class="gt_row gt_right" headers="prod_qty_avg">1.510638</td>
+<td class="gt_row gt_right" headers="tot_sales_sum">249.8</td>
+<td class="gt_row gt_right" headers="tot_sales_avg">5.314894</td>
+<td class="gt_row gt_right" headers="pack_size_sum">8398</td>
+<td class="gt_row gt_right" headers="pack_size_avg">178.6809</td>
+<td class="gt_row gt_right" headers="transx_sum">50</td>
+<td class="gt_row gt_right" headers="transx_avg">1.063830</td>
+<td class="gt_row gt_right" headers="cust_nbr">47</td>
+</tr>
+</tbody>
+</table>
+
 </div>
-<p>The average customer performed just under 4 transactions in the year recorded in the dataset.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>store_monthly <span class="ot">=</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  store_data <span class="sc">%&gt;%</span> </span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">.cols  =</span> prod_qty<span class="sc">:</span>pack_size,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">.fns   =</span> <span class="fu">list</span>(<span class="at">sum=</span>sum),</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">.names =</span> <span class="st">"{col}"</span>),</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">transx =</span> <span class="fu">n</span>(),</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> <span class="fu">c</span>(year,month,store_nbr,lylty_card_nbr)) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">date</span>(<span class="fu">str_glue</span>(<span class="st">"{min(year)}-{min(month)}-{01}"</span>)),</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols  =</span> prod_qty<span class="sc">:</span>transx,</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns   =</span> <span class="fu">list</span>(<span class="at">sum=</span>sum,</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>                    <span class="at">avg=</span>mean),</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">.names =</span> <span class="st">"{col}_{fn}"</span>),</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">cust_nbr =</span> <span class="fu">n</span>(),</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> <span class="fu">c</span>(year,month,store_nbr)) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year,month,store_nbr)</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>store_monthly</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3,169 × 13
-    year month store_nbr date       prod_qty_sum prod_qty_avg tot_sales_sum
-   &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;     &lt;date&gt;            &lt;dbl&gt;        &lt;dbl&gt;         &lt;dbl&gt;
- 1  2018     7 1         2018-07-01           59         1.23          192.
- 2  2018     7 2         2018-07-01           45         1.18          146.
- 3  2018     7 3         2018-07-01          263         2.44         1165.
- 4  2018     7 4         2018-07-01          302         2.50         1318.
- 5  2018     7 5         2018-07-01          236         2.59          792.
- 6  2018     7 6         2018-07-01           71         1.51          250.
- 7  2018     7 7         2018-07-01          224         2.26         1004.
- 8  2018     7 8         2018-07-01           81         2.13          361.
- 9  2018     7 9         2018-07-01           85         1.85          290.
-10  2018     7 10        2018-07-01          238         2.43          861.
-# ℹ 3,159 more rows
-# ℹ 6 more variables: tot_sales_avg &lt;dbl&gt;, pack_size_sum &lt;dbl&gt;,
-#   pack_size_avg &lt;dbl&gt;, transx_sum &lt;int&gt;, transx_avg &lt;dbl&gt;, cust_nbr &lt;int&gt;</code></pre>
 </div>
 </div>
 <p>Next we will visualize stores 77, 86, and 88 in order to get an idea of what their sales pattern looks like over the period data is available.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>incomplete_stores <span class="ot">=</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  store_monthly <span class="sc">%&gt;%</span> </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mnts=</span><span class="fu">n</span>(),<span class="at">.by =</span> store_nbr) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(mnts<span class="sc">&lt;</span><span class="dv">12</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(store_nbr)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>treat_monthly <span class="ot">=</span> </span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  store_monthly <span class="sc">%&gt;%</span> </span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>store_nbr <span class="sc">%in%</span> incomplete_stores) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">trial =</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>           <span class="fu">case_when</span>(store_nbr <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">77</span>, <span class="dv">86</span>, <span class="dv">88</span>) <span class="sc">~</span> <span class="dv">1</span>,</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                     <span class="cn">TRUE</span> <span class="sc">~</span> <span class="dv">0</span>))</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>treat_monthly <span class="sc">%&gt;%</span> </span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>date,</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>                <span class="at">y=</span>tot_sales_sum,</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>                <span class="at">color=</span>store_nbr),</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>            <span class="at">linewidth=</span><span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  gghighlight<span class="sc">::</span><span class="fu">gghighlight</span>(trial<span class="sc">==</span><span class="dv">1</span>,</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>                           <span class="at">use_direct_label =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">date_format</span>(<span class="at">format =</span> <span class="st">"%b"</span>),</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>               <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">date_breaks</span>()) <span class="sc">+</span></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">dollar_format</span>()) <span class="sc">+</span> </span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Monthly chip sales by store"</span>,</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Highlighted lines represent trial group of stores 77, 86, and 88 all other stores are greyed out"</span>,</span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Chip sales"</span>,</span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="cn">NULL</span>,</span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Store number"</span>) <span class="sc">+</span></span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -195,92 +642,1199 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Based on the graph, store 77 seems to be a smaller store, store 86 seems to be mid-sized and store 88 is a large, top performing store. A control store to compare to each would need to match the category of the trial store. In order to calculate similarity, we can first expand the store numbers to a grid of each store id paired with every other store id, then run a function using the filtered data of each stores pivoted wider to compare.</p>
+<p>Based on the graph, store 77 seems to be a smaller store, store 86 seems to be mid-sized and store 88 is a large, top performing store. Control stores to compare to each trial store need to match the category of the trial store. Store 88 will likely have fewer candidates for matches since it is a bit of an outlier store. In order to calculate similarity, we can first expand the store numbers to a grid of each store id paired with every other store id, then run a function to calculate the similarity between each pairing. This analysis uses pearson’s correlation function and a normalized euclidean distance formula to calculate similarity. Each function makes up half the weight of a final scoring so that the top scoring store will be the most correlated and the closest size in terms of total sales during the pre-trial period. The table below shows the top 4 candidates for each trial store but only the top scoring store carries forward in further analysis. The graph shows the trial and control stores during the Pre-trial, Trial, and Post-trial periods</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>store_nbrs <span class="ot">=</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  treat_monthly <span class="sc">%&gt;%</span> </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(<span class="at">store_nbr =</span> <span class="fu">as.character</span>(store_nbr)) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(store_nbr) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>sales_correlations <span class="ot">=</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_grid</span>(<span class="fu">c</span>(<span class="dv">77</span>,<span class="dv">86</span>,<span class="dv">88</span>),store_nbrs) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">nbr1=</span><span class="dv">1</span>,<span class="at">nbr2=</span><span class="dv">2</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(nbr1<span class="sc">!=</span>nbr2) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(),as.numeric)) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">correlations=</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>           <span class="fu">map2_dbl</span>(</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>             nbr1,</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>             nbr2,</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>             \(nbr1,nbr2){</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>               treat_monthly <span class="sc">%&gt;%</span> </span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">select</span>(year, month, store_nbr, tot_sales_sum) <span class="sc">%&gt;%</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">filter</span>(<span class="sc">!</span>month <span class="sc">%in%</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>,</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>                        store_nbr <span class="sc">%in%</span> <span class="fu">c</span>(nbr1, nbr2)) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> store_nbr,</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>                             <span class="at">values_from =</span> tot_sales_sum) <span class="sc">%&gt;%</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">summarize</span>(<span class="at">correlation =</span> <span class="fu">cor</span>(<span class="at">x=</span><span class="fu">pick</span>(<span class="dv">3</span>),<span class="at">y=</span><span class="fu">pick</span>(<span class="dv">4</span>),</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">method =</span> <span class="st">"pearson"</span>)) <span class="sc">%&gt;%</span> <span class="fu">pull</span>()</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>             },<span class="at">.progress =</span> <span class="cn">TRUE</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code> ■■■■■■■■■■■■                      37% |  ETA:  5s</code></pre>
+<div class="cell-output-display">
+<div id="mjdsqriofe" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#mjdsqriofe table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#mjdsqriofe thead, #mjdsqriofe tbody, #mjdsqriofe tfoot, #mjdsqriofe tr, #mjdsqriofe td, #mjdsqriofe th {
+  border-style: none;
+}
+
+#mjdsqriofe p {
+  margin: 0;
+  padding: 0;
+}
+
+#mjdsqriofe .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#mjdsqriofe .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#mjdsqriofe .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#mjdsqriofe .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#mjdsqriofe .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#mjdsqriofe .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mjdsqriofe .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#mjdsqriofe .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#mjdsqriofe .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#mjdsqriofe .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#mjdsqriofe .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#mjdsqriofe .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#mjdsqriofe .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#mjdsqriofe .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#mjdsqriofe .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#mjdsqriofe .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#mjdsqriofe .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#mjdsqriofe .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#mjdsqriofe .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mjdsqriofe .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#mjdsqriofe .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#mjdsqriofe .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#mjdsqriofe .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mjdsqriofe .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#mjdsqriofe .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#mjdsqriofe .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mjdsqriofe .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mjdsqriofe .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#mjdsqriofe .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mjdsqriofe .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#mjdsqriofe .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mjdsqriofe .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#mjdsqriofe .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mjdsqriofe .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#mjdsqriofe .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mjdsqriofe .gt_left {
+  text-align: left;
+}
+
+#mjdsqriofe .gt_center {
+  text-align: center;
+}
+
+#mjdsqriofe .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#mjdsqriofe .gt_font_normal {
+  font-weight: normal;
+}
+
+#mjdsqriofe .gt_font_bold {
+  font-weight: bold;
+}
+
+#mjdsqriofe .gt_font_italic {
+  font-style: italic;
+}
+
+#mjdsqriofe .gt_super {
+  font-size: 65%;
+}
+
+#mjdsqriofe .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#mjdsqriofe .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#mjdsqriofe .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#mjdsqriofe .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#mjdsqriofe .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#mjdsqriofe .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#mjdsqriofe .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#mjdsqriofe .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#mjdsqriofe div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<caption>Top four stores similar to each trial store</caption>
+<thead>
+<tr class="header gt_col_headings">
+<th id="nbr2" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">stores</th>
+<th id="correlations" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">correlations</th>
+<th id="magnitude_distance" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">magnitude_distance</th>
+<th id="score" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">score</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd gt_group_heading_row">
+<td colspan="4" id="77" class="gt_group_heading" data-quarto-table-cell-role="th" scope="colgroup">77</td>
+</tr>
+<tr class="even gt_row_group_first">
+<td class="gt_row gt_right" headers="77  nbr2">233</td>
+<td class="gt_row gt_right" headers="77  correlations">0.9741068</td>
+<td class="gt_row gt_right" headers="77  magnitude_distance">1.0000000</td>
+<td class="gt_row gt_right" headers="77  score">0.9870534</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="77  nbr2">50</td>
+<td class="gt_row gt_right" headers="77  correlations">0.8903059</td>
+<td class="gt_row gt_right" headers="77  magnitude_distance">0.9905754</td>
+<td class="gt_row gt_right" headers="77  score">0.9404407</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="77  nbr2">41</td>
+<td class="gt_row gt_right" headers="77  correlations">0.9001067</td>
+<td class="gt_row gt_right" headers="77  magnitude_distance">0.9781417</td>
+<td class="gt_row gt_right" headers="77  score">0.9391242</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="77  nbr2">115</td>
+<td class="gt_row gt_right" headers="77  correlations">0.7401944</td>
+<td class="gt_row gt_right" headers="77  magnitude_distance">0.9484118</td>
+<td class="gt_row gt_right" headers="77  score">0.8443031</td>
+</tr>
+<tr class="even gt_group_heading_row">
+<td colspan="4" id="86" class="gt_group_heading" data-quarto-table-cell-role="th" scope="colgroup">86</td>
+</tr>
+<tr class="odd gt_row_group_first">
+<td class="gt_row gt_right" headers="86  nbr2">138</td>
+<td class="gt_row gt_right" headers="86  correlations">0.8561609</td>
+<td class="gt_row gt_right" headers="86  magnitude_distance">0.9781641</td>
+<td class="gt_row gt_right" headers="86  score">0.9171625</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="86  nbr2">155</td>
+<td class="gt_row gt_right" headers="86  correlations">0.8529851</td>
+<td class="gt_row gt_right" headers="86  magnitude_distance">0.9805851</td>
+<td class="gt_row gt_right" headers="86  score">0.9167851</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="86  nbr2">222</td>
+<td class="gt_row gt_right" headers="86  correlations">0.7950692</td>
+<td class="gt_row gt_right" headers="86  magnitude_distance">0.9787966</td>
+<td class="gt_row gt_right" headers="86  score">0.8869329</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="86  nbr2">269</td>
+<td class="gt_row gt_right" headers="86  correlations">0.7961014</td>
+<td class="gt_row gt_right" headers="86  magnitude_distance">0.9509362</td>
+<td class="gt_row gt_right" headers="86  score">0.8735188</td>
+</tr>
+<tr class="odd gt_group_heading_row">
+<td colspan="4" id="88" class="gt_group_heading" data-quarto-table-cell-role="th" scope="colgroup">88</td>
+</tr>
+<tr class="even gt_row_group_first">
+<td class="gt_row gt_right" headers="88  nbr2">91</td>
+<td class="gt_row gt_right" headers="88  correlations">0.9119856</td>
+<td class="gt_row gt_right" headers="88  magnitude_distance">0.6667075</td>
+<td class="gt_row gt_right" headers="88  score">0.7893465</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="88  nbr2">79</td>
+<td class="gt_row gt_right" headers="88  correlations">0.7719891</td>
+<td class="gt_row gt_right" headers="88  magnitude_distance">0.7656028</td>
+<td class="gt_row gt_right" headers="88  score">0.7687959</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="88  nbr2">7</td>
+<td class="gt_row gt_right" headers="88  correlations">0.6988456</td>
+<td class="gt_row gt_right" headers="88  magnitude_distance">0.7930609</td>
+<td class="gt_row gt_right" headers="88  score">0.7459533</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="88  nbr2">225</td>
+<td class="gt_row gt_right" headers="88  correlations">0.7430937</td>
+<td class="gt_row gt_right" headers="88  magnitude_distance">0.6609805</td>
+<td class="gt_row gt_right" headers="88  score">0.7020371</td>
+</tr>
+</tbody>
+</table>
+
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code> ■■■■■■■■■■■■■■■■■■■■■■■           72% |  ETA:  2s</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sales_correlations <span class="sc">%&gt;%</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(nbr1) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(<span class="at">order_by =</span> correlations, <span class="at">n =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 9 × 3
-# Groups:   nbr1 [3]
-   nbr1  nbr2 correlations
-  &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt;
-1    77   233        0.974
-2    77    41        0.900
-3    77    50        0.890
-4    86   132        0.864
-5    86   138        0.856
-6    86   155        0.853
-7    88   159        0.914
-8    88    91        0.912
-9    88   204        0.880</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>comp_stores <span class="ot">=</span> sales_correlations <span class="sc">%&gt;%</span> </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(nbr1) <span class="sc">%&gt;%</span> </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(<span class="at">order_by =</span> correlations, <span class="at">n =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> nbr1<span class="sc">:</span>nbr2,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"stores"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>()</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>treat_monthly <span class="sc">%&gt;%</span> </span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(store_nbr <span class="sc">%in%</span> comp_stores) <span class="sc">%&gt;%</span> </span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>date,</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>                <span class="at">y=</span>tot_sales_sum,</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>                <span class="at">color=</span>store_nbr),</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">linewidth=</span><span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">date_format</span>(<span class="at">format =</span> <span class="st">"%b"</span>),</span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>               <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">date_breaks</span>()) <span class="sc">+</span></span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">dollar_format</span>()) <span class="sc">+</span> </span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Monthly chip sales by store"</span>,,</span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Chip sales"</span>,</span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="cn">NULL</span>,</span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Store number"</span>) <span class="sc">+</span></span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="quantium_task2_files/figure-html/filter_correls-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="quantium_task2_files/figure-html/filter_comps-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>The results table below shows store sales metrics from the pre-trial period before February 2019, the trial period from February to the end of April, and the post-trial period from May onward.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="kjrwwjflqo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#kjrwwjflqo table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#kjrwwjflqo thead, #kjrwwjflqo tbody, #kjrwwjflqo tfoot, #kjrwwjflqo tr, #kjrwwjflqo td, #kjrwwjflqo th {
+  border-style: none;
+}
+
+#kjrwwjflqo p {
+  margin: 0;
+  padding: 0;
+}
+
+#kjrwwjflqo .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#kjrwwjflqo .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#kjrwwjflqo .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#kjrwwjflqo .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#kjrwwjflqo .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#kjrwwjflqo .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kjrwwjflqo .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#kjrwwjflqo .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#kjrwwjflqo .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#kjrwwjflqo .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#kjrwwjflqo .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#kjrwwjflqo .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#kjrwwjflqo .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#kjrwwjflqo .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#kjrwwjflqo .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#kjrwwjflqo .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#kjrwwjflqo .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#kjrwwjflqo .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#kjrwwjflqo .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kjrwwjflqo .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#kjrwwjflqo .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#kjrwwjflqo .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#kjrwwjflqo .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kjrwwjflqo .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#kjrwwjflqo .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#kjrwwjflqo .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kjrwwjflqo .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kjrwwjflqo .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#kjrwwjflqo .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kjrwwjflqo .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#kjrwwjflqo .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kjrwwjflqo .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#kjrwwjflqo .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kjrwwjflqo .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#kjrwwjflqo .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kjrwwjflqo .gt_left {
+  text-align: left;
+}
+
+#kjrwwjflqo .gt_center {
+  text-align: center;
+}
+
+#kjrwwjflqo .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#kjrwwjflqo .gt_font_normal {
+  font-weight: normal;
+}
+
+#kjrwwjflqo .gt_font_bold {
+  font-weight: bold;
+}
+
+#kjrwwjflqo .gt_font_italic {
+  font-style: italic;
+}
+
+#kjrwwjflqo .gt_super {
+  font-size: 65%;
+}
+
+#kjrwwjflqo .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#kjrwwjflqo .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#kjrwwjflqo .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#kjrwwjflqo .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#kjrwwjflqo .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#kjrwwjflqo .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#kjrwwjflqo .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#kjrwwjflqo .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#kjrwwjflqo div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<caption>Monthly store sales metrics for trial and control stores</caption>
+<thead>
+<tr class="header gt_col_headings">
+<th id="variable" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="pre_trial" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Pre-trial</th>
+<th id="trial" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Trial</th>
+<th id="pct_delta" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Percent change</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd gt_group_heading_row">
+<td colspan="4" id="Trial store 77" class="gt_group_heading" data-quarto-table-cell-role="th" scope="colgroup">Trial store 77</td>
+</tr>
+<tr class="even gt_row_group_first">
+<td class="gt_row gt_left" headers="Trial store 77  variable">product quantity per customer</td>
+<td class="gt_row gt_right" headers="Trial store 77  pre_trial">1.61</td>
+<td class="gt_row gt_right" headers="Trial store 77  trial">1.65</td>
+<td class="gt_row gt_left" headers="Trial store 77  pct_delta">+0.02%</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Trial store 77  variable">total sales</td>
+<td class="gt_row gt_right" headers="Trial store 77  pre_trial">235.43</td>
+<td class="gt_row gt_right" headers="Trial store 77  trial">248.80</td>
+<td class="gt_row gt_left" headers="Trial store 77  pct_delta">+0.06%</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Trial store 77  variable">number of transactions per customer</td>
+<td class="gt_row gt_right" headers="Trial store 77  pre_trial">1.06</td>
+<td class="gt_row gt_right" headers="Trial store 77  trial">1.04</td>
+<td class="gt_row gt_left" headers="Trial store 77  pct_delta">−0.02%</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Trial store 77  variable">number of customers</td>
+<td class="gt_row gt_right" headers="Trial store 77  pre_trial">42.00</td>
+<td class="gt_row gt_right" headers="Trial store 77  trial">46.00</td>
+<td class="gt_row gt_left" headers="Trial store 77  pct_delta">+0.10%</td>
+</tr>
+<tr class="even gt_group_heading_row">
+<td colspan="4" id="Trial store 86" class="gt_group_heading" data-quarto-table-cell-role="th" scope="colgroup">Trial store 86</td>
+</tr>
+<tr class="odd gt_row_group_first">
+<td class="gt_row gt_left" headers="Trial store 86  variable">product quantity per customer</td>
+<td class="gt_row gt_right" headers="Trial store 86  pre_trial">2.50</td>
+<td class="gt_row gt_right" headers="Trial store 86  trial">2.47</td>
+<td class="gt_row gt_left" headers="Trial store 86  pct_delta">−0.01%</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Trial store 86  variable">total sales</td>
+<td class="gt_row gt_right" headers="Trial store 86  pre_trial">849.49</td>
+<td class="gt_row gt_right" headers="Trial store 86  trial">909.00</td>
+<td class="gt_row gt_left" headers="Trial store 86  pct_delta">+0.07%</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Trial store 86  variable">number of transactions per customer</td>
+<td class="gt_row gt_right" headers="Trial store 86  pre_trial">1.26</td>
+<td class="gt_row gt_right" headers="Trial store 86  trial">1.24</td>
+<td class="gt_row gt_left" headers="Trial store 86  pct_delta">−0.02%</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Trial store 86  variable">number of customers</td>
+<td class="gt_row gt_right" headers="Trial store 86  pre_trial">98.14</td>
+<td class="gt_row gt_right" headers="Trial store 86  trial">108.33</td>
+<td class="gt_row gt_left" headers="Trial store 86  pct_delta">+0.10%</td>
+</tr>
+<tr class="odd gt_group_heading_row">
+<td colspan="4" id="Trial store 88" class="gt_group_heading" data-quarto-table-cell-role="th" scope="colgroup">Trial store 88</td>
+</tr>
+<tr class="even gt_row_group_first">
+<td class="gt_row gt_left" headers="Trial store 88  variable">product quantity per customer</td>
+<td class="gt_row gt_right" headers="Trial store 88  pre_trial">2.41</td>
+<td class="gt_row gt_right" headers="Trial store 88  trial">2.51</td>
+<td class="gt_row gt_left" headers="Trial store 88  pct_delta">+0.04%</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Trial store 88  variable">total sales</td>
+<td class="gt_row gt_right" headers="Trial store 88  pre_trial">1 261.83</td>
+<td class="gt_row gt_right" headers="Trial store 88  trial">1 374.53</td>
+<td class="gt_row gt_left" headers="Trial store 88  pct_delta">+0.09%</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Trial store 88  variable">number of transactions per customer</td>
+<td class="gt_row gt_right" headers="Trial store 88  pre_trial">1.21</td>
+<td class="gt_row gt_right" headers="Trial store 88  trial">1.26</td>
+<td class="gt_row gt_left" headers="Trial store 88  pct_delta">+0.04%</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Trial store 88  variable">number of customers</td>
+<td class="gt_row gt_right" headers="Trial store 88  pre_trial">121.14</td>
+<td class="gt_row gt_right" headers="Trial store 88  trial">124.67</td>
+<td class="gt_row gt_left" headers="Trial store 88  pct_delta">+0.03%</td>
+</tr>
+<tr class="even gt_group_heading_row">
+<td colspan="4" id="Control store 91" class="gt_group_heading" data-quarto-table-cell-role="th" scope="colgroup">Control store 91</td>
+</tr>
+<tr class="odd gt_row_group_first">
+<td class="gt_row gt_left" headers="Control store 91  variable">product quantity per customer</td>
+<td class="gt_row gt_right" headers="Control store 91  pre_trial">2.18</td>
+<td class="gt_row gt_right" headers="Control store 91  trial">2.26</td>
+<td class="gt_row gt_left" headers="Control store 91  pct_delta">+0.03%</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Control store 91  variable">total sales</td>
+<td class="gt_row gt_right" headers="Control store 91  pre_trial">829.53</td>
+<td class="gt_row gt_right" headers="Control store 91  trial">832.17</td>
+<td class="gt_row gt_left" headers="Control store 91  pct_delta">0.00%</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Control store 91  variable">number of transactions per customer</td>
+<td class="gt_row gt_right" headers="Control store 91  pre_trial">1.14</td>
+<td class="gt_row gt_right" headers="Control store 91  trial">1.16</td>
+<td class="gt_row gt_left" headers="Control store 91  pct_delta">+0.02%</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Control store 91  variable">number of customers</td>
+<td class="gt_row gt_right" headers="Control store 91  pre_trial">86.43</td>
+<td class="gt_row gt_right" headers="Control store 91  trial">83.00</td>
+<td class="gt_row gt_left" headers="Control store 91  pct_delta">−0.04%</td>
+</tr>
+<tr class="odd gt_group_heading_row">
+<td colspan="4" id="Control store 138" class="gt_group_heading" data-quarto-table-cell-role="th" scope="colgroup">Control store 138</td>
+</tr>
+<tr class="even gt_row_group_first">
+<td class="gt_row gt_left" headers="Control store 138  variable">product quantity per customer</td>
+<td class="gt_row gt_right" headers="Control store 138  pre_trial">2.51</td>
+<td class="gt_row gt_right" headers="Control store 138  trial">2.48</td>
+<td class="gt_row gt_left" headers="Control store 138  pct_delta">−0.02%</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Control store 138  variable">total sales</td>
+<td class="gt_row gt_right" headers="Control store 138  pre_trial">858.84</td>
+<td class="gt_row gt_right" headers="Control store 138  trial">807.13</td>
+<td class="gt_row gt_left" headers="Control store 138  pct_delta">−0.06%</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Control store 138  variable">number of transactions per customer</td>
+<td class="gt_row gt_right" headers="Control store 138  pre_trial">1.26</td>
+<td class="gt_row gt_right" headers="Control store 138  trial">1.24</td>
+<td class="gt_row gt_left" headers="Control store 138  pct_delta">−0.02%</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Control store 138  variable">number of customers</td>
+<td class="gt_row gt_right" headers="Control store 138  pre_trial">100.29</td>
+<td class="gt_row gt_right" headers="Control store 138  trial">99.00</td>
+<td class="gt_row gt_left" headers="Control store 138  pct_delta">−0.01%</td>
+</tr>
+<tr class="even gt_group_heading_row">
+<td colspan="4" id="Control store 233" class="gt_group_heading" data-quarto-table-cell-role="th" scope="colgroup">Control store 233</td>
+</tr>
+<tr class="odd gt_row_group_first">
+<td class="gt_row gt_left" headers="Control store 233  variable">product quantity per customer</td>
+<td class="gt_row gt_right" headers="Control store 233  pre_trial">1.58</td>
+<td class="gt_row gt_right" headers="Control store 233  trial">1.53</td>
+<td class="gt_row gt_left" headers="Control store 233  pct_delta">−0.03%</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Control store 233  variable">total sales</td>
+<td class="gt_row gt_right" headers="Control store 233  pre_trial">226.19</td>
+<td class="gt_row gt_right" headers="Control store 233  trial">192.07</td>
+<td class="gt_row gt_left" headers="Control store 233  pct_delta">−0.15%</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Control store 233  variable">number of transactions per customer</td>
+<td class="gt_row gt_right" headers="Control store 233  pre_trial">1.03</td>
+<td class="gt_row gt_right" headers="Control store 233  trial">1.06</td>
+<td class="gt_row gt_left" headers="Control store 233  pct_delta">+0.02%</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Control store 233  variable">number of customers</td>
+<td class="gt_row gt_right" headers="Control store 233  pre_trial">41.43</td>
+<td class="gt_row gt_right" headers="Control store 233  trial">37.00</td>
+<td class="gt_row gt_left" headers="Control store 233  pct_delta">−0.11%</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>After a visual analysis of the results table it is clear that average monthly number of customers increases consistently in the trial groups and decreases consistently in the control groups. Since most other indicators stay mostly flat, increased customer numbers drives an increase in total sales in the trial stores while total sales fall in the control stores. Further statistical analysis would be needed to determine the statistical significance of the increase in total sales.</p>
 </section>
 
 </main>
